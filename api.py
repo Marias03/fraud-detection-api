@@ -309,24 +309,28 @@ def predict_simple_json(data: dict):
             "received_data": data
         }
 
-
 if __name__ == "__main__":
     import uvicorn
+    import os
+    
+    # Obtener puerto de Railway o usar 8000 por defecto
+    port = int(os.environ.get("PORT", 8000))
     
     print("\n" + "="*50)
-    print("Fraud detection API- Ready for using ")
+    print("Fraud detection API - Ready for deployment on Railway")
     print("="*50)
-    print("\n📡 Endpoints:")
-    print("  • http://localhost:8000/          - Página principal")
-    print("  • http://localhost:8000/docs      - Documentación interactiva")
-    print("  • http://localhost:8000/features  - Características requeridas")
-    print("  • http://localhost:8000/health    - Estado del servicio")
-    print("\n⚡ Iniciando servidor...")
+    print(f"\n📡 Server starting on port {port}")
+    print("Available endpoints:")
+    print(f"  • http://0.0.0.0:{port}/          - Página principal")
+    print(f"  • http://0.0.0.0:{port}/docs      - Documentación interactiva")
+    print(f"  • http://0.0.0.0:{port}/features  - Características requeridas")
+    print(f"  • http://0.0.0.0:{port}/health    - Estado del servicio")
+    print("\n⚡ Starting server...")
     
     uvicorn.run(
-        "api:app",
-        host="0.0.0.0",  # Accesible desde cualquier IP
-        port=8000,
-        reload=True,     # Recarga automática al hacer cambios
+        app="api:app",
+        host="0.0.0.0",
+        port=port,
+        reload=False,     # ✅ IMPORTANTE: False en producción
         log_level="info"
     )
