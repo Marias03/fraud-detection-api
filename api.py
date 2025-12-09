@@ -10,7 +10,14 @@ import json
 print("Loading Fraud detection model...")
 
 try:
-    # USAR JOBLIB (como funcionó en tu notebook)
+    # HACK para numpy._core error
+    import sys
+    import numpy
+    # Fix para numpy >=1.26
+    if not hasattr(numpy, '_core'):
+        sys.modules['numpy._core'] = numpy.core
+    
+    # Cargar modelo
     modelo = joblib.load('fraud_detection_pipeline.pkl')
     
     print("Model loaded successfully!")
